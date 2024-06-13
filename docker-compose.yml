@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  java-service:
+    build:
+      context: ./java-service
+      dockerfile: Dockerfile
+    container_name: java_service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/purchase_orders
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8082:8082"
+    networks:
+      - my-network
+
+  php-service:
+    build:
+      context: ./php-service
+      dockerfile: Dockerfile
+    container_name: php_service
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=product_catalog
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8000:8000"
+    networks:
+      - my-network
+
+  angular-app:
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    container_name: angular_app
+    ports:
+      - "4200:80"
+    networks:
+      - my-network
+
+  db:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: mysql_db
+    environment:     
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'YES'
+      MYSQL_RANDOM_ROOT_PASSWORD: 'NO'
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - db_datos:/var/lib/mysql
+      #- ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./mysql/product_catalog.sql:/docker-entrypoint-initdb.d/product_catalog.sql
+      - ./mysql/purchase_orders.sql:/docker-entrypoint-initdb.d/purchase_orders.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+      
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"  # RabbitMQ Management UI
+      - "5672:5672"    # RabbitMQ Server Port
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  db_datos:
+  
+
+
