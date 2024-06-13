@@ -1,0 +1,78 @@
+<div>
+  <h3>Product Management</h3>
+
+  <!-- Formulario para agregar un nuevo producto -->
+  <div>
+    <h4>Add New Product</h4>
+    <form (submit)="addProduct()">
+      <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Name" required>
+      <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Description" required>
+      <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required>
+      <input type="number" [(ngModel)]="newProduct.quantity" name="quantity" placeholder="Quantity" required>
+      <input type="file" (change)="onFilesSelected($event)" multiple>
+      <button type="submit">Add Product</button>
+    </form>
+    
+    <div *ngFor="let previewUrl of selectedImagePreviews">
+      <img [src]="previewUrl" alt="Vista previa de la imagen" style="max-width: 100px; max-height: 100px;">
+    </div>
+  </div>
+
+  <!-- Lista de productos -->
+  <div>
+    <h4>Product List</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Images</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let product of products">
+          <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>
+              <div class="image-container">
+                <div *ngFor="let image of product.images" class="image-wrapper">
+                  <img [src]="replacePublicWithStorage(image.path)" alt="Mi imagen" width="100" height="100">
+                </div>
+              </div>
+            </td>
+            <td>
+              <button (click)="selectProduct(product)">Edit</button>        
+              <button (click)="deleteProduct(product.id)">Delete</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Formulario para editar un producto -->
+  <div *ngIf="selectedProduct">
+    <h3>Edit Product</h3>
+    <form (submit)="updateProduct()">
+      <input type="text" [(ngModel)]="selectedProduct.name" name="name" placeholder="Name" required>
+      <input type="text" [(ngModel)]="selectedProduct.description" name="description" placeholder="Description" required>
+      <input type="number" [(ngModel)]="selectedProduct.price" name="price" placeholder="Price" required>
+      <input type="number" [(ngModel)]="selectedProduct.quantity" name="quantity" placeholder="Quantity" required>
+      <input type="file" id="fileInputUpdate" (change)="onFilesSelected($event)" multiple>
+      <button type="submit">Update Product</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button> <!-- Agregar botón de cancelar -->
+    </form>
+  
+    <div *ngFor="let image of selectedProduct.images; let i = index">
+      <img [src]="selectedImagePreviews[i]" alt="Producto existente" style="max-width: 100px; max-height: 100px;">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">    
+    <div>
+      <label for="date">Fecha:</label>
+      <input type="date" formControlName="date" required>
+    </div>
+    <div>
+      <label for="status">Estado:</label>
+      <input type="text" formControlName="status" required>
+    </div>
+    <div>
+      <label for="delivery_address">Dirección de Entrega:</label>
+      <input type="text" formControlName="delivery_address" required>
+    </div>
+    <div>
+      <label for="payment_method">Método de Pago:</label>
+      <input type="text" formControlName="payment_method" required>
+    </div>
+    <div>
+      <label for="user_id">ID del Usuario:</label>
+      <input type="number" formControlName="user_id" required>
+    </div>
+    
+    
+    <div formArrayName="orderDetails">
+        <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+            <label>Product:</label>
+            <select formControlName="product_id">
+              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+            </select>
+            <label>Quantity:</label>
+            <input formControlName="quantity" type="number">
+            <button type="button" (click)="removeProduct(i)">Remove</button>
+          </div>
+        </div>
+        <button type="button" (click)="addProduct()">Add Product</button>
+      
+        <h3>Order Preview</h3>
+        <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+          <ul>      
+            
+              <ng-container *ngIf="getProductById(detail.value.product_id) as product">
+                <li>
+                  {{detail.value.product_id }} - {{ product.name }} - {{ product.description }} - {{ product.price }}$ x {{  detail.value.quantity}}
+                </li>
+              
+            </ng-container>
+          </ul>          
+        </div>
+    <button type="submit" [disabled]="!orderForm.valid">{{ isEditMode ? 'Actualizar Orden' : 'Crear Orden' }}</button>
+  </form>
+
+  <!--<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="date">Date</label>
+      <input id="date" formControlName="date" type="date">
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <input id="status" formControlName="status" type="text">
+    </div>
+    <div>
+      <label for="deliveryAddress">Delivery Address</label>
+      <input id="deliveryAddress" formControlName="deliveryAddress" type="text">
+    </div>
+    <div>
+      <label for="paymentMethod">Payment Method</label>
+      <input id="paymentMethod" formControlName="paymentMethod" type="text">
+    </div>
+    <div>
+      <label for="userId">User ID</label>
+      <input id="userId" formControlName="userId" type="number">
+    </div>
+  
+    <div formArrayName="orderDetails">
+      <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+        <label for="productId">Product</label>
+        <select id="productId" formControlName="productId">
+          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+        </select>
+  
+        <label for="quantity">Quantity</label>
+        <input id="quantity" formControlName="quantity" type="number">
+  
+        <button type="button" (click)="removeProduct(i)">Remove</button>
+      </div>
+    </div>
+  
+    <button type="button" (click)="addProduct()">Add Product</button>
+
+    <h3>Order Preview</h3>
+    <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+      <ul>      
+        
+          <ng-container *ngIf="getProductById(detail.value.product_id) as product">
+            <li>
+              {{detail.value.product_id }} - {{ product.name }} - {{ product.description }} - {{ product.price }}$ x {{  detail.value.quantity}}
+            </li>
+          
+        </ng-container>
+      </ul>          
+    </div>
+
+    <button type="submit" [disabled]="!orderForm.valid">{{ isEditMode ? 'Actualizar Orden' : 'Crear Orden' }}</button>
+  </form>-->
+ 
+  
+
+  
+  

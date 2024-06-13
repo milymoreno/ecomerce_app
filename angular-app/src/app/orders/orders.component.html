@@ -1,0 +1,32 @@
+<h1>Order Management</h1>
+
+<!-- Lista de órdenes -->
+<div *ngFor="let order of orders">
+  <div>ID: {{ order.id }}</div>
+  <div>Status: {{ order.status }}</div>
+  <div>Delivery Address: {{ order.deliveryAddress }}</div>
+  <div>Payment Method: {{ order.paymentMethod }}</div>
+  <div>Date: {{ order.date | date }}</div>
+  <div>
+    <!-- Detalle de la orden -->
+    <h3>Order Details</h3>
+    <ul>      
+      <ng-container *ngFor="let orderDetail of order.orderDetails">
+        <ng-container *ngIf="getProductById(orderDetail.productId) as product">
+          <li>
+            {{ orderDetail.productId }} - {{ product.name }} - {{ product.description }} - {{ product.price }}$ x {{ orderDetail.quantity }}
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>    
+
+<!--<ul>
+      <li *ngFor="let orderDetail of order.orderDetails">
+        
+        {{ orderDetail.productId }} - {{ getProductById(orderDetail.productId)?.name }} - {{ getProductById(orderDetail.productId)?.description }} - {{ getProductById(orderDetail.productId)?.price }}$ x {{ orderDetail.quantity }}
+      </li>
+    </ul>-->
+  </div>
+  <!-- Botón de Editar -->
+  <button (click)="editOrder(order.id)">Editar</button>
+</div>

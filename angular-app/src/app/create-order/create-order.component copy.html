@@ -1,0 +1,51 @@
+<!-- src/app/create-order/create-order.component.html -->
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Date:</label>
+      <input formControlName="date" type="date">
+    </div>
+    <div>
+      <label>Status:</label>
+      <input formControlName="status" type="text">
+    </div>
+    <div>
+      <label>Delivery Address:</label>
+      <input formControlName="delivery_address" type="text">
+    </div>
+    <div>
+      <label>Payment Method:</label>
+      <input formControlName="payment_method" type="text">
+    </div>
+    <div>
+      <label>User ID:</label>
+      <input formControlName="user_id" type="number">
+    </div>
+    
+    <div formArrayName="orderDetails">
+      <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+        <label>Product:</label>
+        <select formControlName="product_id">
+          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+        </select>
+        <label>Quantity:</label>
+        <input formControlName="quantity" type="number">
+        <button type="button" (click)="removeProduct(i)">Remove</button>
+      </div>
+    </div>
+    <button type="button" (click)="addProduct()">Add Product</button>
+  
+    <h3>Order Preview</h3>
+    <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i">
+      <p>Product: {{ detail.value.product_id }} </p>
+      <p>Quantity: {{ detail.value.quantity }}</p>
+       <!-- Vista previa de los detalles del producto -->
+       <div *ngIf="getProduct(detail.value.product_id)">
+        <p>Nombre: {{ getProductName(detail.value.product_id) }}</p>
+        <p>Precio: {{ getProductPrice(detail.value.product_id) | currency }}</p>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="!orderForm.valid">Create Order</button>
+  </form>
+  
+  

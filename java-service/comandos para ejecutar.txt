@@ -1,0 +1,147 @@
+composer global require laravel/installer
+
+para que reconozca comando laravel -V o laravel --version
+
+C:\Users\usuario\product-catalog
+
+php artisan serve
+
+rabbitmqctl list_queues
+
+php artisan rabbitmq:consume-events
+
+Ejemplo de Solicitud en Postman
+
+Crear Producto
+
+URL: POST http://localhost:8000/api/products
+Headers:
+Content-Type: multipart/form-data
+Body:
+name: Product Name
+description: Product Description
+price: 10.00
+quantity: 100
+images[]: Selecciona múltiples archivos de imagen
+
+http://localhost:8000/api/products metodo GET lista todos los productos
+
+http://localhost:8000/api/products/8 GET Mostrar producto con id 8
+
+para usar docker
+
+docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+
+mvn clean install
+mvn spring-boot:run
+
+C:\Users\usuario\product-catalog
+
+POST http://localhost:8082/orders/create
+
+{
+    "order": {
+        "date": "2024-06-01",
+        "status": "PENDING",
+        "deliveryAddress": "Calle 48#42-41",
+        "paymentMethod": "CREDIT_CARD",
+        "userId": 3
+    },
+    "orderDetails": [
+        {
+            "productId": 1,
+            "quantity": 2
+        },
+        {
+            "productId": 2,
+            "quantity": 1
+        },
+        {
+            "productId": 3,
+            "quantity": 2
+        }
+    ]
+}
+
+GET http://localhost:8082/orders
+
+
+CREATE TABLE `usuario` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `date` datetime(6) DEFAULT NULL,
+  `clave` varchar(255) DEFAULT NULL,
+  `fecha` datetime(6) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+PUT http://localhost:8082/orders/1
+
+{
+    "order": {
+        "id": 1, // El ID del pedido que deseas actualizar
+        "date": "2024-06-02",
+        "status": "SHIPPED",
+        "deliveryAddress": "456 Elm St",
+        "paymentMethod": "PAYPAL",
+		"userId": 3
+    },
+    "orderDetails": [
+        {
+            "id": 1, // ID del detalle del pedido existente que deseas actualizar
+            "productId": 1,
+            "quantity": 3, // Nueva cantidad            
+        },
+        {
+            "id": 2, // ID del detalle del pedido existente que deseas actualizar
+            "productId": 2,
+            "quantity": 2, // Nueva cantidad           
+        }
+    ]
+}
+
+
+
+
+
+{
+  "productId": "123",
+  "quantity": 5
+}
+
+php artisan serve
+php artisan rabbitmq:consume-events
+
+https://github.com/milymoreno/ecommerceFront.git
+
+git init
+git add .
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/milymoreno/ecommerceFront.git
+git push -u origin main
+
+echo "# microservicioProduct" >> README.md
+git init
+git add .
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/milymoreno/microservicioProduct.git
+git push -u origin main
+
+
+echo "# microservicioOrders" >> README.md
+git init
+git add .
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/milymoreno/microservicioOrders.git
+git push -u origin main
+
